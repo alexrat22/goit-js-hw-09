@@ -1,5 +1,6 @@
 import flatpickr from 'flatpickr';
 import 'flatpickr/dist/flatpickr.min.css';
+import Notiflix from 'notiflix';
 
 const refs = {
   startBtn: document.querySelector('button[data-start]'),
@@ -20,7 +21,9 @@ flatpickr('input#datetime-picker', {
   minuteIncrement: 1,
   onClose(selectedDates) {
     if (selectedDates[0] <= new Date()) {
-      alert('Please choose a date in the future');
+      Notiflix.Notify.failure('Please choose a date in the future', {
+        position: 'center-top',
+      });
     } else {
       startTime = selectedDates[0];
       refs.startBtn.removeAttribute('disabled', '');
@@ -73,17 +76,19 @@ class Timer {
     const hour = minute * 60;
     const day = hour * 24;
 
-    const days = this.pad(Math.floor(ms / day));
-    const hours = this.pad(Math.floor((ms % day) / hour));
-    const minutes = this.pad(Math.floor(((ms % day) % hour) / minute));
-    const seconds = this.pad(
+    const days = this.addLeadingZero(Math.floor(ms / day));
+    const hours = this.addLeadingZero(Math.floor((ms % day) / hour));
+    const minutes = this.addLeadingZero(
+      Math.floor(((ms % day) % hour) / minute)
+    );
+    const seconds = this.addLeadingZero(
       Math.floor((((ms % day) % hour) % minute) / second)
     );
 
     return { days, hours, minutes, seconds };
   }
 
-  pad(value) {
+  addLeadingZero(value) {
     return String(value).padStart(2, '0');
   }
 }
