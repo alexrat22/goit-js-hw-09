@@ -1,6 +1,16 @@
 import flatpickr from 'flatpickr';
 import 'flatpickr/dist/flatpickr.min.css';
 
+const refs = {
+  startBtn: document.querySelector('button[data-start]'),
+  fieldSeconds: document.querySelector('[data-seconds]'),
+  fieldMinutes: document.querySelector('[data-minutes]'),
+  fieldHours: document.querySelector('[data-hours]'),
+  fieldDays: document.querySelector('[data-days]'),
+};
+
+refs.startBtn.setAttribute('disabled', '');
+
 let startTime = {};
 
 flatpickr('input#datetime-picker', {
@@ -11,17 +21,12 @@ flatpickr('input#datetime-picker', {
   onClose(selectedDates) {
     if (selectedDates[0] <= new Date()) {
       alert('Please choose a date in the future');
-    } else startTime = selectedDates[0];
+    } else {
+      startTime = selectedDates[0];
+      refs.startBtn.removeAttribute('disabled', '');
+    }
   },
 });
-
-const refs = {
-  startBtn: document.querySelector('button[data-start]'),
-  fieldSeconds: document.querySelector('[data-seconds]'),
-  fieldMinutes: document.querySelector('[data-minutes]'),
-  fieldHours: document.querySelector('[data-hours]'),
-  fieldDays: document.querySelector('[data-days]'),
-};
 
 class Timer {
   constructor({ onTick }) {
