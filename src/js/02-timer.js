@@ -46,11 +46,20 @@ class Timer {
 
     this.intervalId = setInterval(() => {
       const currentTime = Date.now();
-      const deltaTime = startTime - currentTime;
+      let deltaTime = startTime - currentTime;
+      if (deltaTime <= 0) {
+        deltaTime = 0;
+        this.stop();
+      }
       const time = this.convertMs(deltaTime);
 
       this.onTick(time);
     }, 1000);
+  }
+
+  stop() {
+    clearInterval(this.intervalId);
+    this.isActive = false;
   }
 
   convertMs(ms) {
