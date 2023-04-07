@@ -27,11 +27,19 @@ function onSubmitClick(evt) {
     createPromise(i, delay)
       .then(({ position, delay }) =>
         Notiflix.Notify.success(
-          `✅ Fulfilled promise ${position} in ${delay}ms`
+          `✅ Fulfilled promise ${position} in ${delay}ms`,
+          {
+            useIcon: false,
+          }
         )
       )
       .catch(({ position, delay }) =>
-        Notiflix.Notify.failure(`❌ Rejected promise ${position} in ${delay}ms`)
+        Notiflix.Notify.failure(
+          `❌ Rejected promise ${position} in ${delay}ms`,
+          {
+            useIcon: false,
+          }
+        )
       );
     delay += Number(evt.currentTarget.step.value);
   }
